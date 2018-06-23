@@ -1,0 +1,27 @@
+<form action="/home" method="post">
+    <input id="id" name="id" type="text"></input>
+    <input id="name" name="name" type="text"></input>
+    <button type="submit">Submit</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">phone</th>
+            <th scope="col">gender</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each result}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{contact_name}}</td>
+            <td>{{contact_email}}</td>
+            <td>{{contact_phone}}</td>
+            <td>{{contact_gender}}</td>
+        </tr>
+        {{/each }}
+    </tbody>
+</table>
