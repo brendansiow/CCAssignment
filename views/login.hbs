@@ -1,2 +1,40 @@
-<h1>Container Management System</h1>
-<button onClick="window.location='home';">Go Home</button>
+<div class="ui middle aligned center aligned grid" style="height:100%">
+    <div class="ui column center algined grid" style="width:35%">
+        <div class="ui raised segment">
+            <h2 class="ui teal header">
+                <i class="ship icon"></i>
+                Container Management System
+            </h2>
+            <h3 class="ui header">
+                <div class="content">
+                    Log-in to your account
+                </div>
+            </h3>
+        </div>
+        <div class="column" style="width:80%">
+            <form class="ui large form" action="/login" method="post">
+                <div class="ui raised segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <button class="ui fluid large teal submit button" type="submit">Login</button>
+                </div>
+                <div class="ui error message"></div>
+            </form>
+            <div class="ui message">
+                <a href="/register">
+                    <button class="ui button" type="submit">Sign Up</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

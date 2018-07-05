@@ -1,0 +1,52 @@
+<div class=" ui container">
+    {{#if errors}} {{#each errors}}
+    <div class="ui negative message" style="margin-top:20px;margin-right:auto;margin-left:auto;width:500px">
+        <div class="header">
+            {{msg}}
+        </div>
+    </div>
+    {{/each}} {{/if}}
+</div>
+<div class="ui middle aligned center aligned grid"  style="height:100%">
+    <div class="column" style="width:30%">
+        <div class="ui raised segment">
+            <h2 class="ui header">
+                <div class="content">
+                    Register your account
+                </div>
+            </h2>
+        </div>
+        <form class="ui large form" action="/register" method="post">
+            <div class="ui raised segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="address card icon"></i>
+                        <input type="text" name="name" placeholder="Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="email" placeholder="E-mail address">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <button class="ui fluid large teal submit button" type="submit">Register</button>
+            </div>
+        </form>
+
+        <div class="ui message">
+            <a href="/login">
+                <button class="ui button">
+                    Back to Login Page
+                </button>
+            </a>
+        </div>
+
+    </div>
+</div>

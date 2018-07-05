@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{title}}</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/semantic.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/semantic.min.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <div class="ui menu">
+     <div class="item">
+       <h2 class="ui teal header">
+         <i class="ship icon"></i>
+        Container Management System
+        </h2>
+      </div>
+    <div class="right menu">
+      <div class="item">
+        Logged in as {{user.customer_email}}
+      </div>
+      <div class="item">
+        <a href="/logout">
+          <button class="ui secondary button">Logout</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="ui container">
+    {{#if success_msg}}
+    <div class="ui success message" style="margin-top:20px;margin-right:auto;margin-left:auto;width:500px">
+      <div class="header">
+        {{success_msg}}
+      </div>
+    </div>
+    {{/if}} {{#if error_msg}}
+    <div class="ui negative message" style="margin-top:20px;margin-right:auto;margin-left:auto;width:500px">
+      <div class="header">
+        {{error_msg}}
+      </div>
+    </div>
+    {{/if}} {{#if error}}
+    <div class="ui negative message" style="margin-top:20px;margin-right:auto;margin-left:auto;width:500px">
+      <div class="header">
+        {{error}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+  {{{body}}}
+</body>
+
+</html>

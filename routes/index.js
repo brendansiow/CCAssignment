@@ -1,56 +1,82 @@
-var express = require("express");
-var router = express.Router();
-const sql = require("mssql");
-const config = {
-  user: "adminliquid",
-  password: "LiquidCloud123",
-  server: "liquidcloud.database.windows.net",
-  database: "LiquidCloudDB",
+const express = require("express");
+const router = express.Router();
+var customer = require("./../src/customer");
+var flash = require("connect-flash");
+var passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password"
+    },
+    (email, password, done) => {
+      customer.Login(email, password, user => {
+        if (!user) {
+          return done(null, false, {
+            message: "Incorrect email and password."
+          });
+        }
+        return done(null, user);
+      });
+    }
+  )
+);
+passport.serializeUser(function(user, done) {
+  done(null, user.customer_id);
+});
 
-  options: {
-    encrypt: true
-  }
-};
-/* GET home page. */
+passport.deserializeUser(function(id, done) {
+  customer.GetUserByID(id, user => {
+    done(null, user);
+  });
+});
+/* GET page. */
 router.get("/", function(req, res, next) {
+  res.render("home", { layout: "homelayout.hbs" });
+});
+router.get("/login", function(req, res, next) {
   res.render("login");
 });
-router.get("/home", function(req, res, next) {
-  GetContacts().then(result => {
-    res.render("home", { result: result.recordset });
-  });
-});
-router.post("/home", (req, res, next) => {
-  new sql.ConnectionPool(config)
-    .connect()
-    .then((pool) => {
-      return pool.query`insert into dbo.contacts values (${req.body.id},${req.body.name},'123123','Male','12312qweqwe','Single','2018-05-02')`;
-    })
-    .then(() => {
-      sql.close();
-      res.redirect("/home");
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-//
-function GetContacts() {
-  return new Promise((resolve, reject) => {
-    new sql.ConnectionPool(config)
-      .connect()
-      .then(pool => {
-        return pool.query`select * from dbo.contacts`;
-      })
-      .then(result => {
-        sql.close();
-        console.log(result);
-        resolve(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  });
-}
-module.exports = router;
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  }),
+  function(req, res) {
+    res.redirect("/");
+  }
+);
 
+router.get("/register", function(req, res, next) {
+  res.render("register");
+});
+router.post("/register", function(req, res, next) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  req.checkBody("name", "Name is required!").notEmpty();
+  req.checkBody("email", "Email is not valid").isEmail();
+  req.checkBody("password", "Password is required!").notEmpty();
+  var errors = req.validationErrors();
+  if (errors) {
+    res.render("register", { errors: errors });
+  } else {
+    customer.Register(
+      req.body.name,
+      req.body.email,
+      req.body.password,callback => {
+        req.flash("success_msg", "Registered successfully!");
+        res.redirect("/login");
+      }
+    );
+  }
+});
+router.get("/logout", (req, res) => {
+  req.logout();
+  req.flash("success_msg", "You are logged out!");
+  res.redirect("/login");
+});
+module.exports = router;

@@ -1,27 +1,86 @@
-<form action="/home" method="post">
-    <input id="id" name="id" type="text"></input>
-    <input id="name" name="name" type="text"></input>
-    <button type="submit">Submit</button>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">name</th>
-            <th scope="col">email</th>
-            <th scope="col">phone</th>
-            <th scope="col">gender</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each result}}
-        <tr>
-            <th scope="row">{{id}}</th>
-            <td>{{contact_name}}</td>
-            <td>{{contact_email}}</td>
-            <td>{{contact_phone}}</td>
-            <td>{{contact_gender}}</td>
-        </tr>
-        {{/each }}
-    </tbody>
-</table>
+<div class="ui aligned center aligned grid">
+    <div style="width:500px;text-align:center;margin-top:20px">
+        <div class="ui segment">
+            <h2 class="ui teal header">
+                Hi, {{user.customer_name}}
+            </h2>
+        </div>
+        <a href="/shipping/add">
+        <button class="ui teal button">Add New Shipping Request</button>
+        </a>
+    </div>
+    <div class="row" style="margin-top:20px">
+        <table class="ui celled table" style="width:800px">
+            <thead>
+                <tr>
+                    <th>Shipping ID</th>
+                    <th>Depart Port</th>
+                    <th>Arrival Port</th>
+                    <th>Requested Date</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Port A</td>
+                    <td>Port Z</td>
+                    <td>17/5/2018</td>
+                    <td>Requested</td>
+                    <td>
+                        <div class="ui secondary animated button" tabindex="0">
+                            <div class="visible content">
+                                <i class="right arrow icon"></i>
+
+                            </div>
+                            <div class="hidden content">
+                                Go
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Port A</td>
+                    <td>Port Z</td>
+                    <td>17/5/2018</td>
+                    <td>Requested</td>
+                    <td>
+                        <div class="ui secondary animated button" tabindex="0">
+                            <div class="visible content">
+                                <i class="right arrow icon"></i>
+
+                            </div>
+                            <div class="hidden content">
+                                Go
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Port A</td>
+                    <td>Port Z</td>
+                    <td>17/5/2018</td>
+                    <td>Requested</td>
+                    <td>
+                        <div class="ui secondary animated button" tabindex="0">
+                            <div class="visible content">
+                                <i class="right arrow icon"></i>
+
+                            </div>
+                            <div class="hidden content">
+                                Go
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
