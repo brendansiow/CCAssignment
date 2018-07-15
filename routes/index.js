@@ -17,17 +17,36 @@ passport.use(
             message: "Incorrect email and password."
           });
         }
-        return done(null, user);
+        if (user.customer_id) {
+          return done(null, user.customer_email);
+        } else {
+          return done(null, user.staff_email);
+        }
       });
     }
   )
 );
-passport.serializeUser(function(user, done) {
-  done(null, user.customer_id);
+passport.serializeUser(function(email, done) {
+  done(null, email);
 });
 
-passport.deserializeUser(function(id, done) {
-  customer.GetUserByID(id, user => {
+passport.deserializeUser(function(email, done) {
+  customer.GetUserByID(email, user => {
+    let tempuser = [];
+    if (user.customer_id) {
+      tempuser.userid = user.customer_id;
+      tempuser.name = user.customer_name;
+      tempuser.email = user.customer_email;
+      tempuser.portid = null;
+      tempuser.role = "customer";
+    } else {
+      tempuser.userid = user.staff_id;
+      tempuser.name = user.staff_name;
+      tempuser.email = user.staff_email;
+      tempuser.portid = user.port_id;
+      tempuser.role = "staff";
+    }
+    user = tempuser;
     done(null, user);
   });
 });
@@ -67,7 +86,8 @@ router.post("/register", function(req, res, next) {
     customer.Register(
       req.body.name,
       req.body.email,
-      req.body.password,callback => {
+      req.body.password,
+      callback => {
         req.flash("success_msg", "Registered successfully!");
         res.redirect("/login");
       }

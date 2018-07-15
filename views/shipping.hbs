@@ -1,3 +1,12 @@
+<div class=" ui container">
+    {{#if errors}} {{#each errors}}
+    <div class="ui negative message" style="margin-top:20px;margin-right:auto;margin-left:auto;margin-bottom:20px;width:500px">
+        <div class="header">
+            {{msg}}
+        </div>
+    </div>
+    {{/each}} {{/if}}
+</div>
 <div class="container">
     <div class="ui grid center aligned">
         <div class="column four wide">
@@ -15,12 +24,90 @@
             </div>
         </div>
         <div class="column four wide ">
-        
         </div>
     </div>
-    <div class="ui two column grid center aligned">
-        <div class="row">
+    <form class="ui form" action="/shipping/add" method="post">
+        <div class="ui grid center aligned">
+            <div class="column four wide" style="text-align:start">
+                <div class="ui card">
+                    <div class="content">
+                        <div class="field">
+                            <label>Departure Port</label>
+                            <select class="ui dropdown" name="departureport">
+                                <option value="1">Port A</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Arrival Port</label>
+                            <select class="ui dropdown" name="arrivalport">
+                                <option value="1">Port A</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Shipping Date</label>
+                            <div class="ui calendar" id="date">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Date" name="date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label>Shipping Weight</label>
+                            <div class="ui right labeled input">
+                                <input type="text" name="weight">
+                                <div class="ui basic label">
+                                    kg
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Shipping Description</label>
+                            <textarea rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 60px;" name="desc"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column four wide" style="text-align:start">
+                <div class="ui card">
+                    <div class="content">
+                        <div class="field">
+                            <label>Estimated Cost</label>
+                            <input type="text">
+                        </div>
+                        <div class="field">
+                            <label>Estimated Duration</label>
+                            <input type="text">
+                        </div>
+                        <div class="field">
+                            <label>Approval</label>
+                            <select class="ui dropdown">
+                                <option value="1">Pending</option>
+                                <option value="0">Approved</option>
+                                <option value="0">Rejected</option>
+                                <option value="0">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Container</label>
+                            <select class="ui dropdown">
+                                <option value="1">Container A</option>
+                            </select>
+                        </div>
+                        <button class="ui button" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
+    </form>
 </div>
+<script>
+    $('#date').calendar({
+        type: 'date'
+    });
+    $('.ui.dropdown')
+        .dropdown()
+        ;
+</script>
