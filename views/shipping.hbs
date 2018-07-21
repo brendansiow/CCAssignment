@@ -27,22 +27,24 @@
         </div>
     </div>
     <form class="ui form" action="/shipping/add" method="post">
-        <div class="ui grid center aligned">
-            <div class="column four wide" style="text-align:start">
-                <div class="ui card">
+          <div class="ui grid center aligned">
+            <div class="column five wide" style="text-align:start">
+                <div class="ui card" style="width:auto">
                     <div class="content">
                         <div class="field">
                             <label>Departure Port</label>
                             <select class="ui dropdown" name="departureport">
-                                <option value="1">Port A</option>
-                                <option value="0">Female</option>
+                                {{#each portList}}
+                                <option value="{{port_name}}">{{port_name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="field">
                             <label>Arrival Port</label>
                             <select class="ui dropdown" name="arrivalport">
-                                <option value="1">Port A</option>
-                                <option value="0">Female</option>
+                                {{#each portList}}
+                                <option value="{{port_name}}">{{port_name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <div class="field">
@@ -66,35 +68,6 @@
                         <div class="field">
                             <label>Shipping Description</label>
                             <textarea rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 60px;" name="desc"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column four wide" style="text-align:start">
-                <div class="ui card">
-                    <div class="content">
-                        <div class="field">
-                            <label>Estimated Cost</label>
-                            <input type="text">
-                        </div>
-                        <div class="field">
-                            <label>Estimated Duration</label>
-                            <input type="text">
-                        </div>
-                        <div class="field">
-                            <label>Approval</label>
-                            <select class="ui dropdown">
-                                <option value="1">Pending</option>
-                                <option value="0">Approved</option>
-                                <option value="0">Rejected</option>
-                                <option value="0">Cancelled</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Container</label>
-                            <select class="ui dropdown">
-                                <option value="1">Container A</option>
-                            </select>
                         </div>
                         <button class="ui button" type="submit">Submit</button>
                     </div>

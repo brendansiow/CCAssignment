@@ -2,7 +2,8 @@
 <html>
 
 <head>
-  <title>{{title}}</title>
+  <title>Container Management System</title>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/semantic.min.css">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -22,12 +23,18 @@
     </div>
     <div class="right menu">
       <div class="item">
-        Logged in as {{ user.email }}
-      </div>
-      <div class="item">
-        <a href="/logout">
-          <button class="ui secondary button">Logout</button>
-        </a>
+        <div class="ui pointing dropdown link item">
+          <span>Logged in as {{ user.email }}</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="header">Accounts</div>
+            <div class="item">Edit Profile</div>
+            <div class="item" onclick="location.href = '/logout';" style="color:red!important">
+                Logout    
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -54,5 +61,10 @@
   </div>
   {{{body}}}
 </body>
+<script>
+  $('.ui.dropdown')
+    .dropdown()
+    ;
+</script>
 
 </html>

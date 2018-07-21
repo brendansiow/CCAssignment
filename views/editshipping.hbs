@@ -1,0 +1,183 @@
+<div class=" ui container">
+    {{#if errors}} {{#each errors}}
+    <div class="ui negative message" style="margin-top:20px;margin-right:auto;margin-left:auto;margin-bottom:20px;width:500px">
+        <div class="header">
+            {{msg}}
+        </div>
+    </div>
+    {{/each}} {{/if}}
+</div>
+<div class="container">
+    <div class="ui grid center aligned">
+        <div class="column four wide">
+            <a href="/">
+                <button class="ui teal button">
+                    Back
+                </button>
+            </a>
+        </div>
+        <div class="column eight wide ">
+            <div class="ui segment">
+                <h2 class="ui teal header">
+                    View and Edit Shipping
+                </h2>
+            </div>
+        </div>
+        <div class="column four wide ">
+        </div>
+    </div>
+    {{#if user.portid}}
+    <form class="ui form" action="/shipping/edit/{{ship.shipping_id}}" method="post">
+        {{else}}
+        <form class="ui form" action="/shipping/cancel/{{ship.shipping_id}}" method="post">
+            {{/if}}
+            <div class="ui grid center aligned">
+                <div class="column four wide" style="text-align:start">
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="field">
+                                <label>Departure Port</label>
+                                <input type="text" name="arrivalport" value="{{ship.shipping_departure_port}}" disabled>
+                            </div>
+                            <div class="field">
+                                <label>Arrival Port</label>
+                                <input type="text" name="arrivalport" value="{{ship.shipping_arrival_port}}" disabled>
+                            </div>
+                            <div class="field">
+                                <label>Shipping Date</label>
+                                <div class="ui calendar" id="date">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" placeholder="Date" name="date" value="{{ship.shipping_date}}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide field">
+                                <label>Shipping Weight</label>
+                                <div class="ui right labeled input">
+                                    <input type="text" name="weight" value="{{ship.shipping_weight}}" disabled>
+                                    <div class="ui basic label">
+                                        kg
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Shipping Description</label>
+                                <textarea rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 60px;" name="desc" disabled>{{ship.shipping_remark}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column four wide" style="text-align:start">
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="sixteen wide field">
+                                <label>Estimated Cost</label>
+                                <div class="ui left labeled input">
+                                    <div class="ui basic label">
+                                        RM
+                                    </div>
+                                    <input type="text" name="weight" value="{{ship.shipping_cost}}" disabled>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Estimated Duration</label>
+                                <input type="text" disabled value="{{ship.shipping_duration}}">
+                            </div>
+                            {{#if user.portid}} {{#if iamdepartport}}
+                            <div class="field">
+                                <label>Status</label>
+                                <select class="ui dropdown" name="status">
+                                    <option value="{{ship.shipping_status}}" selected="selected">{{ship.shipping_status}}</option>
+                                    {{#each selectoption}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Container</label>
+                                <select class="ui dropdown" name="container">
+                                    <option value="{{ship.container_id}}" selected="selected">{{ship.container_id}}</option>
+                                    {{#each containeroption}}
+                                    <option value="{{container_id}}">{{container_id}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            {{else}}
+                            <div class="field">
+                                <label>Status</label>
+                                <select class="ui dropdown" name="status">
+                                    <option value="{{ship.shipping_status}}" selected="selected">{{ship.shipping_status}}</option>
+                                    {{#each selectoption}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Container</label>
+                                <input type="text" name="container" value="{{ship.container_id}}" disabled>
+                            </div>
+                            {{/if}}
+                            <button class="ui button" type="submit">Submit</button>
+                            {{else}}
+                            <div class="field">
+                                <label>Status</label>
+                                <input type="text" name="status" value="{{ship.shipping_status}}" disabled>
+                            </div>
+                            <div class="field">
+                                <label>Container</label>
+                                <input type="text" name="status" value="{{ship.container_id}}" disabled>
+                            </div>
+                            {{#when ship.shipping_status 'eq' "Pending"}}
+                            <button class="ui button red" type="submit">Cancel</button>
+                            {{/when}}
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                 {{#if user.portid}}
+                <div class="four column wide">
+                    <table class="ui celled table" style="width:250px">
+                        <thead>
+                            <tr>
+                                <th>Recommended Container</th>
+                                <th>Container Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Small</td>
+                                <td>0-9 kg</td>
+                            </tr>
+                               <tr>
+                                <td>Medium</td>
+                                <td>10-49 kg</td>
+                            </tr>
+                               <tr>
+                                <td>Large</td>
+                                <td>50-99 kg</td>
+                            </tr>
+                               <tr>
+                                <td>XLarge</td>
+                                <td>100-499 kg</td>
+                            </tr>
+                               <tr>
+                                <td>XXLarge</td>
+                                <td>499 kg and up</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                {{/if}}
+            </div>
+        </form>
+</div>
+<script>
+    $('#date').calendar({
+        type: 'date'
+    });
+    $('.ui.dropdown')
+        .dropdown()
+        ;
+</script>

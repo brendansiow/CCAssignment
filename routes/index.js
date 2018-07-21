@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-var customer = require("./../src/customer");
+var user = require("./../src/user");
+var port = require("./../src/port");
+var ship = require("./../src/ship");
 var flash = require("connect-flash");
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
+var app = express();
 passport.use(
   new LocalStrategy(
     {
@@ -11,7 +14,7 @@ passport.use(
       passwordField: "password"
     },
     (email, password, done) => {
-      customer.Login(email, password, user => {
+      user.Login(email, password, user => {
         if (!user) {
           return done(null, false, {
             message: "Incorrect email and password."
@@ -31,7 +34,7 @@ passport.serializeUser(function(email, done) {
 });
 
 passport.deserializeUser(function(email, done) {
-  customer.GetUserByID(email, user => {
+  user.GetUserByID(email, user => {
     let tempuser = [];
     if (user.customer_id) {
       tempuser.userid = user.customer_id;
@@ -52,7 +55,90 @@ passport.deserializeUser(function(email, done) {
 });
 /* GET page. */
 router.get("/", function(req, res, next) {
-  res.render("home", { layout: "homelayout.hbs" });
+  if (req.user.portid) {
+    port.GetPortByID(req.user.portid, portresult => {
+      ship.GetShippingByPort(portresult.port_name, shippinglist => {
+        let shiplist = shippinglist;
+        var promisearr = [];
+        shiplist.forEach(eachshipping => {
+          promisearr.push(
+            new Promise((resolve, reject) => {
+              const monthNames = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+              ];
+              let date = new Date(eachshipping.shipping_date);
+              date =
+                date.getDate() +
+                "-" +
+                monthNames[date.getMonth() + 1] +
+                "-" +
+                date.getFullYear();
+              eachshipping.shipping_date = date;
+              resolve();
+            })
+          );
+        });
+        Promise.all(promisearr).then(() => {
+          res.render("home", {
+            port: portresult,
+            shippinglist: shiplist,
+            layout: "homelayout.hbs"
+          });
+        });
+      });
+    });
+  } else {
+    ship.GetShippingByCust(req.user.userid, shippinglist => {
+      let shiplist = shippinglist;
+      var promisearr = [];
+      shiplist.forEach(eachshipping => {
+        promisearr.push(
+          new Promise((resolve, reject) => {
+            const monthNames = [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ];
+            let date = new Date(eachshipping.shipping_date);
+            date =
+              date.getDate() +
+              "-" +
+              monthNames[date.getMonth()] +
+              "-" +
+              date.getFullYear();
+            eachshipping.shipping_date = date;
+            resolve();
+          })
+        );
+      });
+      Promise.all(promisearr).then(() => {
+        res.render("home", {
+          shippinglist: shiplist,
+          layout: "homelayout.hbs"
+        });
+      });
+    });
+  }
 });
 router.get("/login", function(req, res, next) {
   res.render("login");
@@ -63,10 +149,7 @@ router.post(
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
-  }),
-  function(req, res) {
-    res.redirect("/");
-  }
+  })
 );
 
 router.get("/register", function(req, res, next) {
@@ -83,7 +166,7 @@ router.post("/register", function(req, res, next) {
   if (errors) {
     res.render("register", { errors: errors });
   } else {
-    customer.Register(
+    user.Register(
       req.body.name,
       req.body.email,
       req.body.password,

@@ -8,9 +8,12 @@ var session = require("express-session");
 var passport = require("passport");
 var expressValidator = require("express-validator");
 var indexRouter = require("./routes/index");
-var shippingRouter = require("./routes/shipping")
+var shippingRouter = require("./routes/shipping");
+const appInsights = require("applicationinsights");
 var app = express();
-
+var hbs = require("hbs");
+appInsights.setup("d005c79c-2dbf-44a1-a001-b1d454ed2275");
+appInsights.start();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -27,7 +30,10 @@ app.use(passport.session());
 app.use(expressValidator());
 app.use(flash());
 app.use(function(req, res, next) {
-  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  res.set(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
   next();
 });
 app.use(function(req, res, next) {
@@ -48,6 +54,20 @@ app.use(function(req, res, next) {
   } else {
     next();
   }
+});
+hbs.registerHelper("when",function(operand_1, operator, operand_2, options) {
+  var operators = {
+   'eq': function(l,r) { return l == r; },
+   'noteq': function(l,r) { return l != r; },
+   'gt': function(l,r) { return Number(l) > Number(r); },
+   'or': function(l,r) { return l || r; },
+   'and': function(l,r) { return l && r; },
+   '%': function(l,r) { return (l % r) === 0; }
+  }
+  , result = operators[operator](operand_1,operand_2);
+
+  if (result) return options.fn(this);
+  else  return options.inverse(this);
 });
 app.use("/", indexRouter);
 app.use("/shipping", shippingRouter);

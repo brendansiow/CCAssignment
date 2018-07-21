@@ -2,12 +2,14 @@
     <div style="width:500px;text-align:center;margin-top:20px">
         <div class="ui segment">
             <h2 class="ui teal header">
-                Hi, {{user.name}}
+                Hi, {{user.name}} {{#if port.port_name}} ({{port.port_name}}) {{/if}}
             </h2>
         </div>
+        {{#unless user.portid}}
         <a href="/shipping/add">
-        <button class="ui teal button">Add New Shipping Request</button>
+            <button class="ui teal button">Add New Shipping Request</button>
         </a>
+        {{/unless}}
     </div>
     <div class="row" style="margin-top:20px">
         <table class="ui celled table" style="width:800px">
@@ -22,13 +24,15 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each shippinglist}}
                 <tr>
-                    <td>1</td>
-                    <td>Port A</td>
-                    <td>Port Z</td>
-                    <td>17/5/2018</td>
-                    <td>Requested</td>
+                    <td>{{shipping_id}}</td>
+                    <td>{{shipping_departure_port}}</td>
+                    <td>{{shipping_arrival_port}}</td>
+                    <td>{{shipping_date}}</td>
+                    <td>{{shipping_status}}</td>
                     <td>
+                        <a href="/shipping/edit/{{shipping_id}}">
                         <div class="ui secondary animated button" tabindex="0">
                             <div class="visible content">
                                 <i class="right arrow icon"></i>
@@ -39,46 +43,10 @@
                             </div>
 
                         </div>
+                        </a>
                     </td>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Port A</td>
-                    <td>Port Z</td>
-                    <td>17/5/2018</td>
-                    <td>Requested</td>
-                    <td>
-                        <div class="ui secondary animated button" tabindex="0">
-                            <div class="visible content">
-                                <i class="right arrow icon"></i>
-
-                            </div>
-                            <div class="hidden content">
-                                Go
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Port A</td>
-                    <td>Port Z</td>
-                    <td>17/5/2018</td>
-                    <td>Requested</td>
-                    <td>
-                        <div class="ui secondary animated button" tabindex="0">
-                            <div class="visible content">
-                                <i class="right arrow icon"></i>
-
-                            </div>
-                            <div class="hidden content">
-                                Go
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
