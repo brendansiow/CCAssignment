@@ -49,7 +49,7 @@ module.exports.GetShippingByPort = (name,callback)=>{
   new sql.ConnectionPool(config)
   .connect()
   .then(pool => {
-    return pool.query`select * from dbo.shipping where shipping_departure_port = ${name} or shipping_arrival_port = ${name}`;
+    return pool.query`select * from dbo.shipping where shipping_departure_port = ${name} or shipping_arrival_port = ${name} order by shipping_date desc`;
   })
   .then(result => {
     sql.close();
@@ -67,7 +67,7 @@ module.exports.GetShippingByCust = (id,callback)=>{
   new sql.ConnectionPool(config)
   .connect()
   .then(pool => {
-    return pool.query`select * from dbo.shipping where customer_id = ${id}`;
+    return pool.query`select * from dbo.shipping where customer_id = ${id} order by shipping_date desc`;
   })
   .then(result => {
     sql.close();

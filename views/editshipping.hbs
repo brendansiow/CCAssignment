@@ -115,7 +115,9 @@
                             </div>
                             <div class="field">
                                 <label>Container</label>
-                                <input type="text" name="container" value="{{ship.container_id}}" disabled>
+                                <select class="ui dropdown" name="container">
+                                    <option value="{{ship.container_id}}" selected="selected">{{ship.container_id}}</option>
+                                </select>
                             </div>
                             {{/if}}
                             <button class="ui button" type="submit">Submit</button>
@@ -126,16 +128,15 @@
                             </div>
                             <div class="field">
                                 <label>Container</label>
-                                <input type="text" name="status" value="{{ship.container_id}}" disabled>
+                                <input type="text" name="container" value="{{ship.container_id}}" disabled>
                             </div>
                             {{#when ship.shipping_status 'eq' "Pending"}}
                             <button class="ui button red" type="submit">Cancel</button>
-                            {{/when}}
-                            {{/if}}
+                            {{/when}} {{/if}}
                         </div>
                     </div>
                 </div>
-                 {{#if user.portid}}
+                {{#if user.portid}}
                 <div class="four column wide">
                     <table class="ui celled table" style="width:250px">
                         <thead>
@@ -149,19 +150,19 @@
                                 <td>Small</td>
                                 <td>0-9 kg</td>
                             </tr>
-                               <tr>
+                            <tr>
                                 <td>Medium</td>
                                 <td>10-49 kg</td>
                             </tr>
-                               <tr>
+                            <tr>
                                 <td>Large</td>
                                 <td>50-99 kg</td>
                             </tr>
-                               <tr>
+                            <tr>
                                 <td>XLarge</td>
                                 <td>100-499 kg</td>
                             </tr>
-                               <tr>
+                            <tr>
                                 <td>XXLarge</td>
                                 <td>499 kg and up</td>
                             </tr>

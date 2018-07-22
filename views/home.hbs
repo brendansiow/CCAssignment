@@ -27,22 +27,50 @@
                 {{#each shippinglist}}
                 <tr>
                     <td>{{shipping_id}}</td>
-                    <td>{{shipping_departure_port}}</td>
-                    <td>{{shipping_arrival_port}}</td>
+
+                    {{#when ../port.port_name 'eq' shipping_departure_port}}
+                    <td>
+                        <b style="color:teal">{{shipping_departure_port}}</b>
+                    </td>
+                    {{else}}
+                    <td>
+                        {{shipping_departure_port}}
+                    </td>
+                    {{/when}} {{#when ../port.port_name 'eq' shipping_arrival_port}}
+                    <td>
+                        <b style="color:teal">{{shipping_arrival_port}}</b>
+                    </td>
+                    {{else}}
+                    <td>
+                        {{shipping_arrival_port}}
+                    </td>
+                    {{/when}}
                     <td>{{shipping_date}}</td>
-                    <td>{{shipping_status}}</td>
+                    {{#when shipping_status 'eq' "Cancelled" }}
+                    <td style="color:red">{{shipping_status}}</td>
+                    {{else}} {{#when shipping_status 'eq' "Rejected" }}
+                    <td style="color:red">{{shipping_status}}</td>
+                    {{else}} {{#when shipping_status 'eq' "Delivered"}}
+                    <td style="color:green">{{shipping_status}}</td>
+                    {{else}} {{#when shipping_status 'eq' "Shipping"}}
+                    <td style="color:blue">{{shipping_status}}</td>
+                    {{else}} {{#when shipping_status 'eq' "Approved"}}
+                    <td style="color:green">{{shipping_status}}</td>
+                    {{else}}
+                    <td style="color:orange">{{shipping_status}}</td>{{/when}} {{/when}} {{/when}} {{/when}} {{/when}}
+
                     <td>
                         <a href="/shipping/edit/{{shipping_id}}">
-                        <div class="ui secondary animated button" tabindex="0">
-                            <div class="visible content">
-                                <i class="right arrow icon"></i>
+                            <div class="ui secondary animated button" tabindex="0">
+                                <div class="visible content">
+                                    <i class="right arrow icon"></i>
+
+                                </div>
+                                <div class="hidden content">
+                                    Go
+                                </div>
 
                             </div>
-                            <div class="hidden content">
-                                Go
-                            </div>
-
-                        </div>
                         </a>
                     </td>
                 </tr>

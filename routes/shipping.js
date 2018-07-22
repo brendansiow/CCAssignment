@@ -119,6 +119,7 @@ router.get("/edit/:id", (req, res, next) => {
   });
 });
 router.post("/edit/:id", (req, res, next) => {
+  console.log(req.body.container)
   ship.UpdateShip(req.params.id,req.body.status,req.body.container, callback => {
     req.flash("success_msg", "Shipping edited successfully!");
     res.redirect("/");
