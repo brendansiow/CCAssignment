@@ -81,7 +81,7 @@ router.get("/", function(req, res, next) {
               date =
                 date.getDate() +
                 "-" +
-                monthNames[date.getMonth() + 1] +
+                monthNames[date.getMonth()] +
                 "-" +
                 date.getFullYear();
               eachshipping.shipping_date = date;
